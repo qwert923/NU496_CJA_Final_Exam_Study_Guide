@@ -1,0 +1,1666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NU496 CJA — Final Exam Study Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap');
+
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --surface2: #181c24;
+    --border: #1e2430;
+    --accent1: #e8c547; /* gold — high priority */
+    --accent2: #4fc3f7; /* blue — medium priority */
+    --accent3: #ef5350; /* red — critical */
+    --accent4: #66bb6a; /* green — nursing actions */
+    --accent5: #ce93d8; /* purple — meds/patho */
+    --text: #e8eaf0;
+    --text-muted: #6b7280;
+    --text-dim: #9ca3af;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 40px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  .header-left h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--accent1);
+    letter-spacing: -0.5px;
+  }
+
+  .header-left p {
+    color: var(--text-dim);
+    font-size: 12px;
+    margin-top: 4px;
+    font-family: 'Space Mono', monospace;
+    letter-spacing: 0.5px;
+  }
+
+  .blueprint-bar {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .bp-chip {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    text-align: center;
+  }
+
+  .bp-chip .label { color: var(--text-muted); display: block; font-size: 10px; }
+  .bp-chip .value { color: var(--accent1); font-weight: 700; }
+
+  /* NAV TABS */
+  .nav {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+
+  .nav-tab {
+    padding: 14px 20px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+
+  .nav-tab:hover { color: var(--text); }
+  .nav-tab.active { color: var(--accent1); border-bottom-color: var(--accent1); }
+
+  /* MAIN LAYOUT */
+  .main { padding: 32px 40px; max-width: 1400px; margin: 0 auto; }
+
+  /* SECTION HEADER */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--accent1);
+    margin-bottom: 6px;
+  }
+
+  .section-meta {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .meta-tag {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 3px 8px;
+  }
+
+  .meta-tag.high { border-color: var(--accent3); color: var(--accent3); }
+  .meta-tag.med { border-color: var(--accent2); color: var(--accent2); }
+  .meta-tag.low { border-color: var(--text-muted); color: var(--text-muted); }
+
+  /* GRID */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 16px; }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    transition: border-color 0.2s;
+  }
+  .card:hover { border-color: #2d3748; }
+  .card.span-2 { grid-column: span 2; }
+  .card.span-3 { grid-column: span 3; }
+  .card.critical { border-left: 3px solid var(--accent3); }
+  .card.important { border-left: 3px solid var(--accent1); }
+  .card.info { border-left: 3px solid var(--accent2); }
+  .card.nursing { border-left: 3px solid var(--accent4); }
+  .card.pharm { border-left: 3px solid var(--accent5); }
+
+  .card-title {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    font-family: 'Space Mono', monospace;
+  }
+
+  .card-title.red { color: var(--accent3); }
+  .card-title.gold { color: var(--accent1); }
+  .card-title.blue { color: var(--accent2); }
+  .card-title.green { color: var(--accent4); }
+  .card-title.purple { color: var(--accent5); }
+
+  /* LIST STYLES */
+  ul.clean { list-style: none; }
+  ul.clean li { padding: 4px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  ul.clean li:last-child { border-bottom: none; }
+
+  ul.dot li { padding-left: 14px; position: relative; font-size: 13px; padding-top: 3px; }
+  ul.dot li::before { content: '→'; position: absolute; left: 0; color: var(--text-muted); font-size: 11px; top: 5px; }
+
+  /* HIGHLIGHT BOXES */
+  .highlight {
+    background: var(--surface2);
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 8px 0;
+    font-size: 13px;
+  }
+  .highlight.red { background: rgba(239,83,80,0.08); border: 1px solid rgba(239,83,80,0.2); }
+  .highlight.gold { background: rgba(232,197,71,0.08); border: 1px solid rgba(232,197,71,0.2); }
+  .highlight.blue { background: rgba(79,195,247,0.08); border: 1px solid rgba(79,195,247,0.2); }
+  .highlight.green { background: rgba(102,187,106,0.08); border: 1px solid rgba(102,187,106,0.2); }
+  .highlight.purple { background: rgba(206,147,216,0.08); border: 1px solid rgba(206,147,216,0.2); }
+
+  /* TABLE */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .data-table th {
+    background: var(--surface2);
+    color: var(--text-muted);
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    font-size: 12px;
+  }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: var(--surface2); }
+
+  /* BADGE */
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    font-family: 'Space Mono', monospace;
+  }
+  .badge.red { background: rgba(239,83,80,0.15); color: var(--accent3); }
+  .badge.gold { background: rgba(232,197,71,0.15); color: var(--accent1); }
+  .badge.blue { background: rgba(79,195,247,0.15); color: var(--accent2); }
+  .badge.green { background: rgba(102,187,106,0.15); color: var(--accent4); }
+  .badge.purple { background: rgba(206,147,216,0.15); color: var(--accent5); }
+
+  /* Q COUNT STRIP */
+  .q-strip {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .q-item { text-align: center; }
+  .q-item .num { font-family: 'Space Mono', monospace; font-size: 22px; font-weight: 700; }
+  .q-item .lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .q-item.primary .num { color: var(--accent1); }
+  .q-item.danger .num { color: var(--accent3); }
+  .q-item.info .num { color: var(--accent2); }
+
+  .divider {
+    width: 1px;
+    height: 40px;
+    background: var(--border);
+  }
+
+  h3 { font-size: 14px; font-weight: 600; margin-bottom: 10px; color: var(--text); }
+  h4 { font-size: 12px; font-weight: 700; margin-bottom: 8px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.5px; font-family: 'Space Mono', monospace; }
+
+  strong { color: var(--accent1); }
+  em { color: var(--accent2); font-style: normal; }
+
+  .spacer { height: 16px; }
+  .spacer-sm { height: 8px; }
+
+  /* PEARL BOXES */
+  .pearl {
+    background: rgba(232,197,71,0.06);
+    border: 1px solid rgba(232,197,71,0.25);
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 12px;
+    margin: 6px 0;
+  }
+  .pearl::before { content: '⚡ '; color: var(--accent1); }
+
+  /* NCLEX STYLE */
+  .nclex-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 12px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* SHOCK TABLE SPECIAL */
+  .shock-row td:nth-child(3), .shock-row td:nth-child(4) {
+    font-family: 'Space Mono', monospace;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .header { flex-direction: column; align-items: flex-start; padding: 20px; }
+    .main { padding: 20px; }
+    .nav { padding: 0 20px; }
+    .grid { grid-template-columns: 1fr; }
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .card.span-2, .card.span-3 { grid-column: span 1; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>NU496 CJA — Final Exam Study Guide</h1>
+    <p>BLUEPRINT-BASED · 85 QUESTIONS TOTAL · 40 NEW + 45 CUMULATIVE · SPRING 2026</p>
+  </div>
+  <div class="blueprint-bar">
+    <div class="bp-chip"><span class="label">Total Qs</span><span class="value">85</span></div>
+    <div class="bp-chip"><span class="label">New Content</span><span class="value">40</span></div>
+    <div class="bp-chip"><span class="label">Cumulative</span><span class="value">45</span></div>
+    <div class="bp-chip"><span class="label">NGN ~</span><span class="value">66%</span></div>
+    <div class="bp-chip"><span class="label">Apply/Analyze</span><span class="value">~70%</span></div>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="nav-tab active" onclick="showSection('blueprint')">📋 Blueprint</div>
+  <div class="nav-tab" onclick="showSection('shock')">⚡ Shock (13Q)</div>
+  <div class="nav-tab" onclick="showSection('transplant')">🫀 Transplant (12Q)</div>
+  <div class="nav-tab" onclick="showSection('burns')">🔥 Burns/SJS (15Q)</div>
+  <div class="nav-tab" onclick="showSection('sepsis')">🦠 Sepsis/DIC (6Q)</div>
+  <div class="nav-tab" onclick="showSection('gi')">🫁 GI Emergencies (3Q)</div>
+  <div class="nav-tab" onclick="showSection('ards')">💨 ARDS/Pneumo (4Q)</div>
+  <div class="nav-tab" onclick="showSection('neuro')">🧠 Neuro: SCI/Stroke (9Q)</div>
+  <div class="nav-tab" onclick="showSection('endo')">💉 Endo: DKA/DI/Adrenal (9Q)</div>
+  <div class="nav-tab" onclick="showSection('renal')">🩸 AKI/Pancreatitis (4Q)</div>
+  <div class="nav-tab" onclick="showSection('onco')">🧬 Onco/Psych (8Q)</div>
+</nav>
+
+<div class="main">
+
+<!-- BLUEPRINT OVERVIEW -->
+<div id="blueprint" class="section active">
+  <div class="section-title">Exam Blueprint Overview</div>
+  <div class="section-meta">
+    <span class="meta-tag high">SEMESTER III LEVEL</span>
+    <span class="meta-tag">Apply: 50–55% of Qs</span>
+    <span class="meta-tag">Analyze/Eval: 15–20%</span>
+    <span class="meta-tag">NGN format ~66%</span>
+  </div>
+
+  <div class="q-strip">
+    <div class="q-item primary"><div class="num">85</div><div class="lbl">Total Questions</div></div>
+    <div class="divider"></div>
+    <div class="q-item danger"><div class="num">40</div><div class="lbl">New Content</div></div>
+    <div class="divider"></div>
+    <div class="q-item info"><div class="num">45</div><div class="lbl">Cumulative</div></div>
+    <div class="divider"></div>
+    <div class="q-item primary"><div class="num">33.5h</div><div class="lbl">Content Hours</div></div>
+  </div>
+
+  <div class="grid">
+    <div class="card important span-2">
+      <div class="card-title gold">Question Count by Topic — Ranked by Priority</div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Topic</th>
+            <th>Faculty</th>
+            <th>Total Qs</th>
+            <th>New/Old</th>
+            <th>Hours</th>
+            <th>Priority</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Burns / Stevens-Johnson's</strong></td>
+            <td>Dr. Bell (WB)</td>
+            <td><span class="badge red">15</span></td>
+            <td>New</td>
+            <td>2.5h</td>
+            <td><span class="badge red">🔴 HIGHEST</span></td>
+          </tr>
+          <tr>
+            <td><strong>Shock</strong></td>
+            <td>Dr. Mook (MM)</td>
+            <td><span class="badge red">13</span></td>
+            <td>New</td>
+            <td>2h</td>
+            <td><span class="badge red">🔴 HIGHEST</span></td>
+          </tr>
+          <tr>
+            <td><strong>Transplant</strong></td>
+            <td>Prof. Cleary (NC)</td>
+            <td><span class="badge red">12</span></td>
+            <td>New</td>
+            <td>2h</td>
+            <td><span class="badge red">🔴 HIGHEST</span></td>
+          </tr>
+          <tr>
+            <td><strong>SCI / Neurogenic Bowel &amp; Bladder</strong></td>
+            <td>Dr. Jayasinghe (JS)</td>
+            <td><span class="badge gold">5</span></td>
+            <td>Old</td>
+            <td>3h</td>
+            <td><span class="badge gold">🟡 HIGH</span></td>
+          </tr>
+          <tr>
+            <td><strong>Stroke</strong></td>
+            <td>Dr. Jayasinghe (JS)</td>
+            <td><span class="badge gold">4</span></td>
+            <td>Old</td>
+            <td>2.5h</td>
+            <td><span class="badge gold">🟡 HIGH</span></td>
+          </tr>
+          <tr>
+            <td><strong>ARDS / Pneumothorax</strong></td>
+            <td>Dr. Jayasinghe (JJ)</td>
+            <td><span class="badge gold">4</span></td>
+            <td>Old</td>
+            <td>2h</td>
+            <td><span class="badge gold">🟡 HIGH</span></td>
+          </tr>
+          <tr>
+            <td><strong>DI / SIADH</strong></td>
+            <td>Dr. Jayasinghe (JS)</td>
+            <td><span class="badge gold">4</span></td>
+            <td>Old</td>
+            <td>2h</td>
+            <td><span class="badge gold">🟡 HIGH</span></td>
+          </tr>
+          <tr>
+            <td>Oncologic Emergencies</td>
+            <td>Dr. Jayasinghe (JJ)</td>
+            <td><span class="badge blue">3</span></td>
+            <td>Old</td>
+            <td>2h</td>
+            <td><span class="badge blue">🔵 MED</span></td>
+          </tr>
+          <tr>
+            <td>GI Bleed / GI Emergencies</td>
+            <td>Dr. Jayasinghe (JJ)</td>
+            <td><span class="badge blue">3</span></td>
+            <td>Old</td>
+            <td>2h</td>
+            <td><span class="badge blue">🔵 MED</span></td>
+          </tr>
+          <tr>
+            <td>DKA / HHS</td>
+            <td>Dr. Jayasinghe (JJ)</td>
+            <td><span class="badge blue">3</span></td>
+            <td>Old</td>
+            <td>1.5h</td>
+            <td><span class="badge blue">🔵 MED</span></td>
+          </tr>
+          <tr>
+            <td>Sepsis</td>
+            <td>Dr. Mook (MM)</td>
+            <td><span class="badge blue">3</span></td>
+            <td>Old</td>
+            <td>2h</td>
+            <td><span class="badge blue">🔵 MED</span></td>
+          </tr>
+          <tr>
+            <td>DIC</td>
+            <td>Dr. Mook (MM)</td>
+            <td><span class="badge blue">3</span></td>
+            <td>Old</td>
+            <td>2h</td>
+            <td><span class="badge blue">🔵 MED</span></td>
+          </tr>
+          <tr>
+            <td>Schizophrenia</td>
+            <td>Dr. Mook (MM)</td>
+            <td><span class="badge blue">3</span></td>
+            <td>Old</td>
+            <td>1.5h</td>
+            <td><span class="badge blue">🔵 MED</span></td>
+          </tr>
+          <tr>
+            <td>AKI</td>
+            <td>Prof. Cleary (NC)</td>
+            <td>2</td>
+            <td>Old</td>
+            <td>1.5h</td>
+            <td>Low</td>
+          </tr>
+          <tr>
+            <td>Pancreatitis</td>
+            <td>Prof. Cleary (NC)</td>
+            <td>2</td>
+            <td>Old</td>
+            <td>1h</td>
+            <td>Low</td>
+          </tr>
+          <tr>
+            <td>Necrotizing Fasciitis</td>
+            <td>Prof. Cleary (NC)</td>
+            <td>2</td>
+            <td>Old</td>
+            <td>1h</td>
+            <td>Low</td>
+          </tr>
+          <tr>
+            <td>Adrenal Disorders</td>
+            <td>Dr. Bell (WB)</td>
+            <td>2</td>
+            <td>Old</td>
+            <td>1.5h</td>
+            <td>Low</td>
+          </tr>
+          <tr>
+            <td>Personality Disorders</td>
+            <td>Dr. Mook (MM)</td>
+            <td>2</td>
+            <td>Old</td>
+            <td>1.5h</td>
+            <td>Low</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card info">
+      <div class="card-title blue">Cognition Level Breakdown (Semester III)</div>
+      <ul class="clean">
+        <li>Recall (R): <strong>10–15%</strong> (~5–7 Qs)</li>
+        <li>Understand (U): <strong>15–20%</strong> (~7–10 Qs)</li>
+        <li>Apply (AP): <strong>50–55%</strong> ⬅ majority (~25–28 Qs)</li>
+        <li>Analyze/Evaluate/Create: <strong>15–20%</strong> (~7–10 Qs)</li>
+      </ul>
+      <div class="pearl">Most questions = clinical scenarios requiring you to prioritize, intervene, or interpret labs/data.</div>
+    </div>
+
+    <div class="card nursing">
+      <div class="card-title green">Study Strategy by Priority</div>
+      <ul class="dot">
+        <li><strong>Burns/SJS + Shock + Transplant = 40 Qs (47%)</strong> — master these 3 new topics first</li>
+        <li>SCI + Stroke + ARDS + DI/SIADH = 17 Qs — high-yield cumulative</li>
+        <li>Onco + GI + DKA + Sepsis/DIC = 12 Qs — know the key differentiators</li>
+        <li>AKI, Pancreatitis, NF, Adrenal = 8 Qs — review study guide highlights only</li>
+        <li>Know your vasopressors, when to use them, and which shock type they match</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SHOCK -->
+<div id="shock" class="section">
+  <div class="section-title">Shock</div>
+  <div class="section-meta">
+    <span class="meta-tag high">13 QUESTIONS</span>
+    <span class="meta-tag high">NEW CONTENT</span>
+    <span class="meta-tag">Dr. Mook · 2 hours</span>
+    <span class="meta-tag">Apply + Analyze dominant</span>
+  </div>
+
+  <div class="card critical span-3" style="margin-bottom:16px;">
+    <div class="card-title red">Master Cheat Sheet — All Shock Types</div>
+    <table class="data-table">
+      <thead>
+        <tr><th>Type</th><th>Mechanism</th><th>BP</th><th>HR</th><th>Key Finding</th><th>Vasopressor / Treatment</th></tr>
+      </thead>
+      <tbody>
+        <tr class="shock-row">
+          <td><strong>Hypovolemic</strong></td>
+          <td>↓ intravascular volume → ↓ venous return → ↓ CO</td>
+          <td style="color:var(--accent3);font-size:18px;font-weight:700;">↓</td>
+          <td style="color:var(--accent1);font-size:18px;font-weight:700;">↑</td>
+          <td>↓ UO, peripheral hypoperfusion</td>
+          <td>2 large-bore IVs (14–16g), blood/IVF. Vasopressors if needed.</td>
+        </tr>
+        <tr class="shock-row">
+          <td><strong>Cardiogenic</strong></td>
+          <td>↓ CO from pump failure → ↓ tissue perfusion</td>
+          <td style="color:var(--accent3);font-size:18px;font-weight:700;">↓</td>
+          <td style="color:var(--accent1);font-size:18px;font-weight:700;">↑</td>
+          <td><em>Crackles</em>, BNP↑, cardiac enzymes↑</td>
+          <td>Dobutamine (inotropy), Dopamine, Norepinephrine. Monitor fluid overload.</td>
+        </tr>
+        <tr class="shock-row">
+          <td><strong>Septic</strong></td>
+          <td>Exaggerated infection response → vasodilation, maldistribution</td>
+          <td style="color:var(--accent3);font-size:18px;font-weight:700;">↓</td>
+          <td style="color:var(--accent1);font-size:18px;font-weight:700;">↑</td>
+          <td>Persistent hypotension despite 30 mL/kg IVF</td>
+          <td>Norepinephrine (1st line), Epinephrine. ABX + cultures first.</td>
+        </tr>
+        <tr class="shock-row">
+          <td><strong>Neurogenic</strong></td>
+          <td>SCI → loss of SNS tone → massive vasodilation</td>
+          <td style="color:var(--accent3);font-size:18px;font-weight:700;">↓</td>
+          <td style="color:var(--accent3);font-size:18px;font-weight:700;">↓</td>
+          <td><em>BRADYCARDIA</em> + hypotension = hallmark</td>
+          <td>Phenylephrine, Dopamine, <strong>Atropine</strong> for bradycardia. Cautious fluids.</td>
+        </tr>
+        <tr class="shock-row">
+          <td><strong>Anaphylactic</strong></td>
+          <td>Allergen → massive vasodilation + ↑ cap permeability</td>
+          <td style="color:var(--accent3);font-size:18px;font-weight:700;">↓</td>
+          <td style="color:var(--accent1);font-size:18px;font-weight:700;">↑</td>
+          <td>Laryngeal edema, bronchospasm, angioedema</td>
+          <td><strong>Epinephrine IM FIRST</strong>, antihistamines, H2 blockers, corticosteroids.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="grid">
+    <div class="card info">
+      <div class="card-title blue">Broad Pathophysiology</div>
+      <ul class="dot">
+        <li>Normal: ATP made aerobically (efficient)</li>
+        <li>Shock state: cells lack blood → <strong>anaerobic metabolism</strong> → lactic acid buildup</li>
+        <li>Cell swelling → ↑ membrane permeability → electrolyte shifts → <strong>cell death</strong></li>
+        <li>Body compensates: ↑ SNS → ↑ HR, ↑ BP, ↑ RR; RAAS → ↓ UO</li>
+      </ul>
+    </div>
+
+    <div class="card critical">
+      <div class="card-title red">Stages of Shock</div>
+      <ul class="clean">
+        <li><strong>Compensatory:</strong> Body maintains perfusion. Pallor, tachycardia, cool/clammy skin, tachypnea, confusion. Reversible if treated.</li>
+        <li><strong>Progressive:</strong> Compensatory mechanisms fail. ↓ BP + CO, leaky vessels, crackles. Goal: prevent MODS.</li>
+        <li><strong>Irreversible:</strong> Profound hypotension/hypoxemia, multi-organ failure, recovery unlikely.</li>
+      </ul>
+    </div>
+
+    <div class="card nursing">
+      <div class="card-title green">Nursing Priorities — All Shock</div>
+      <ul class="dot">
+        <li>ABCs first</li>
+        <li>Mental status assessments</li>
+        <li>Strict I&Os (hourly UO goal ≥0.5 mL/kg/hr)</li>
+        <li>Body temp + skin changes</li>
+        <li>Tissue perfusion evidence: cap refill, pulses, LOC</li>
+        <li>Avoid organ complications from prolonged hypoperfusion</li>
+      </ul>
+    </div>
+
+    <div class="card pharm">
+      <div class="card-title purple">Cardiogenic — Pharmacology</div>
+      <ul class="dot">
+        <li><strong>Dobutamine</strong> — inotrope, ↑ contractility</li>
+        <li><strong>Dopamine</strong> — chronotrope + inotrope, ↑ HR + contractility</li>
+        <li><strong>Nitroglycerin</strong> — vasodilates coronary arteries</li>
+        <li><strong>Norepinephrine / Epinephrine</strong> — vasopressors</li>
+        <li>Morphine — pain control</li>
+        <li>Labs: BNP↑, cardiac enzymes↑, lactate↑</li>
+        <li>SpO₂ goal: 95% (2–6L NC)</li>
+      </ul>
+      <div class="pearl">Swan-Ganz (PA Catheter): PAP 15–30/5–15 mmHg; PAWP 10–20 mmHg</div>
+    </div>
+
+    <div class="card info">
+      <div class="card-title blue">Early vs Late Signs</div>
+      <table class="data-table">
+        <thead><tr><th>Early (Compensatory)</th><th>Late (Progressive/Irreversible)</th></tr></thead>
+        <tbody>
+          <tr><td>Pallor</td><td>Cold, moist skin</td></tr>
+          <tr><td>Tachypnea</td><td>Weak, thready pulse</td></tr>
+          <tr><td>Confusion</td><td><strong>Anuria</strong></td></tr>
+          <tr><td>Tachycardia</td><td><strong>Hypotension</strong></td></tr>
+          <tr><td>Cool, clammy skin</td><td>Metabolic acidosis</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card important">
+      <div class="card-title gold">Key Differentiators for NCLEX</div>
+      <div class="pearl">Neurogenic = only shock with BRADYCARDIA</div>
+      <div class="pearl">Cardiogenic = crackles (fluid backup), monitor for overload</div>
+      <div class="pearl">Anaphylactic = Epi IM is ALWAYS first intervention</div>
+      <div class="pearl">Septic = persistent hypotension despite 30 mL/kg IVF → vasopressors</div>
+      <div class="pearl">Hypovolemic = 2 large-bore IVs, blood/IVF, fix the cause</div>
+    </div>
+  </div>
+</div>
+
+<!-- TRANSPLANT -->
+<div id="transplant" class="section">
+  <div class="section-title">Transplantation</div>
+  <div class="section-meta">
+    <span class="meta-tag high">12 QUESTIONS</span>
+    <span class="meta-tag high">NEW CONTENT</span>
+    <span class="meta-tag">Prof. Cleary · 2 hours</span>
+  </div>
+
+  <div class="grid">
+    <div class="card info">
+      <div class="card-title blue">Types of Transplants</div>
+      <ul class="clean">
+        <li><strong>Xenotransplant</strong> — animal to human</li>
+        <li><strong>Allotransplant</strong> — human to human (most common)</li>
+        <li><strong>Autotransplant</strong> — self-donor (e.g., skin graft)</li>
+      </ul>
+      <div class="spacer-sm"></div>
+      <h4>Organ Viability Windows</h4>
+      <ul class="clean">
+        <li>Heart/Lung: <strong>4–6 hrs</strong></li>
+        <li>Liver: 8–12 hrs</li>
+        <li>Pancreas: 12–18 hrs</li>
+        <li>Kidney: <strong>24–36 hrs</strong></li>
+      </ul>
+    </div>
+
+    <div class="card critical">
+      <div class="card-title red">UNOS Criteria</div>
+      <ul class="dot">
+        <li>ABO blood type compatibility</li>
+        <li>HLA typing + CPRA score</li>
+        <li>Physical size match</li>
+        <li>Wait time + medical urgency + geography</li>
+      </ul>
+      <div class="spacer-sm"></div>
+      <h4>Contraindications</h4>
+      <ul class="dot">
+        <li>Active cancer</li>
+        <li>Severe infection</li>
+        <li>Active substance use disorder</li>
+        <li>Severe comorbidities</li>
+        <li>Compliance concern with post-tx management</li>
+      </ul>
+    </div>
+
+    <div class="card important">
+      <div class="card-title gold">Rejection Types — Must Know</div>
+      <table class="data-table">
+        <thead><tr><th>Type</th><th>Timing</th><th>Mechanism</th><th>Intervention</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Hyperacute</strong></td><td>Minutes–hours</td><td>Antibody-mediated</td><td><em>Remove the organ</em></td></tr>
+          <tr><td><strong>Acute</strong></td><td>Weeks–months</td><td>T-cell mediated</td><td>↑ Immunosuppression</td></tr>
+          <tr><td><strong>Chronic</strong></td><td>Months–years</td><td>Slow fibrosis</td><td>Immunosuppressants ± retransplant</td></tr>
+        </tbody>
+      </table>
+      <div class="pearl">S/S of rejection: fever, fatigue, ↓ organ function, pain/swelling at site</div>
+    </div>
+
+    <div class="card pharm">
+      <div class="card-title purple">Immunosuppressants</div>
+      <ul class="clean">
+        <li><strong>Tacrolimus (Prograf)</strong> — calcineurin inhibitor, backbone agent</li>
+        <li><strong>Cyclosporine (Neoral)</strong> — alternative calcineurin inhibitor</li>
+        <li><strong>Mycophenolate mofetil (CellCept)</strong> — antiproliferative</li>
+        <li><strong>Thymoglobulin</strong> — induction agent (T-cell depletion)</li>
+        <li><strong>Prednisone</strong> — corticosteroid</li>
+        <li><strong>Ganciclovir</strong> — antiviral prophylaxis (CMV)</li>
+      </ul>
+      <div class="pearl">Clozapine → agranulocytosis. Tacrolimus → nephrotoxicity. Monitor levels!</div>
+    </div>
+
+    <div class="card nursing">
+      <div class="card-title green">Post-Transplant Nursing Priorities</div>
+      <ul class="dot">
+        <li>Airway + hemodynamic monitoring</li>
+        <li>Organ perfusion assessment</li>
+        <li>Fluid + electrolyte balance</li>
+        <li>Pain control</li>
+        <li><strong>INFECTION PREVENTION</strong> — #1 ongoing concern</li>
+        <li>Monitor for rejection (fever, ↓ function, site pain)</li>
+      </ul>
+    </div>
+
+    <div class="card info">
+      <div class="card-title blue">GVHD — Graft vs Host Disease (HSCT)</div>
+      <ul class="dot">
+        <li>Occurs in 30–50% of allogenic HSCT recipients</li>
+        <li>Donor T-cells attack recipient's tissues</li>
+        <li><strong>Acute:</strong> within 100 days → skin rash, diarrhea, hepatomegaly</li>
+        <li><strong>Chronic:</strong> after 100 days</li>
+        <li>Treatment: immunosuppressants + corticosteroids</li>
+      </ul>
+      <div class="pearl">Engraftment = WBC, RBC, platelets begin to ↑ after HSCT</div>
+    </div>
+
+    <div class="card important">
+      <div class="card-title gold">Key Patient Teaching</div>
+      <ul class="dot">
+        <li>Take immunosuppressants as prescribed — <strong>never skip</strong></li>
+        <li>Avoid crowds + wear mask (infection exposure)</li>
+        <li>Monitor for rejection signs</li>
+        <li>Regular follow-up appointments</li>
+        <li>Avoid contact sports</li>
+        <li>No fresh fruits/vegetables (neutropenic precautions)</li>
+      </ul>
+    </div>
+
+    <div class="card info">
+      <div class="card-title blue">Pre-Transplant Management by Organ</div>
+      <table class="data-table">
+        <thead><tr><th>Organ</th><th>Indication</th><th>Pre-Tx Support</th></tr></thead>
+        <tbody>
+          <tr><td>Heart</td><td>End-stage HF</td><td>Dobutamine/milrinone, LVAD, IABP, ECMO</td></tr>
+          <tr><td>Lung</td><td>COPD, CF, IPF, ILD, pulm HTN</td><td>Supplemental O₂, mech vent, ECMO, bronchodilators</td></tr>
+          <tr><td>Liver</td><td>End-stage liver disease</td><td>Treat encephalopathy, manage ascites, prevent variceal bleed</td></tr>
+          <tr><td>Kidney</td><td>ESKD</td><td>Hemodialysis, BP control, nutrition/weight management</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- BURNS / SJS -->
+<div id="burns" class="section">
+  <div class="section-title">Burns &amp; Stevens-Johnson Syndrome</div>
+  <div class="section-meta">
+    <span class="meta-tag high">15 QUESTIONS — HIGHEST PRIORITY</span>
+    <span class="meta-tag high">NEW CONTENT</span>
+    <span class="meta-tag">Dr. Bell (WB) · 2.5 hours</span>
+  </div>
+
+  <div class="highlight red" style="margin-bottom:16px;font-size:13px;">
+    ⚠️ Burns/SJS = 15 Qs (~18% of the exam) — the single highest-weighted topic. Master this section first. Primary causes of burn mortality: <strong>Sepsis</strong> and <strong>Fulminant MSOF</strong>.
+  </div>
+
+  <!-- INITIAL PRIORITY + PHASES -->
+  <div class="grid" style="margin-bottom:16px;">
+    <div class="card critical">
+      <div class="card-title red">Initial Assessment Priority — C-ABC</div>
+      <div class="highlight red"><strong>In burn/trauma: C-ABC (not ABC)</strong> — Control hemorrhage first, then Airway, Breathing, Circulation</div>
+      <ul class="dot">
+        <li><strong>Primary survey</strong> — address immediate life-threatening injuries (hemorrhage, pneumothorax/hemothorax)</li>
+        <li>Prevention of shock</li>
+        <li>Prevention of respiratory distress</li>
+        <li>Detection &amp; treatment of concomitant injuries</li>
+        <li>Wound assessment &amp; care</li>
+      </ul>
+      <div class="pearl">NCLEX trap: "What is the initial nursing priority for a burn patient?" → Answer = Airway/Circulation (C → evaluate airway and circulation), NOT pain, NOT Rule of 9s, NOT IV access.</div>
+    </div>
+
+    <div class="card info">
+      <div class="card-title blue">3 Phases of Burn Care</div>
+      <ul class="clean">
+        <li><strong>1. Initial/Emergent Phase</strong> — onset of injury through fluid resuscitation completion. Focus: shock prevention, respiratory distress, wound assessment.</li>
+        <li><strong>2. Acute/Intermediate Phase</strong> — initial diuresis through wound closure. Focus: respiratory/circulatory status, debridement, pain, thermoregulation, nutrition, infection prevention, early mobility.</li>
+        <li><strong>3. Rehabilitation Phase</strong> — wound closure through return to optimal function. Focus: scar/skin management, PT/OT, psych support, pain/itch management, nutrition, long-term follow-up.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- BURN DEPTH CLASSIFICATION — FROM DR. BELL'S LECTURE -->
+  <div class="grid" style="margin-bottom:16px;">
+    <div class="card critical span-2">
+      <div class="card-title red">Burn Depth Classification — Dr. Bell's Table</div>
+      <table class="data-table">
+        <thead>
+          <tr><th>Depth</th><th>Cause</th><th>Layers Involved</th><th>Clinical Manifestations</th><th>Wound Appearance</th><th>RN Care &amp; Treatment</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Superficial (1st°)</strong></td>
+            <td>Sunburn, low-intensity flash, superficial scald</td>
+            <td>Epidermis only</td>
+            <td>Tingling, hypersensitive, pain, peeling/itch</td>
+            <td>Dry, no blistering, erythema, warm to touch</td>
+            <td>PO pain meds, cool compresses, topical ointments. <em>No topical ABX indicated.</em> Heals in 2–5 days.</td>
+          </tr>
+          <tr>
+            <td><strong>Partial Thickness (2nd°)</strong></td>
+            <td>Scalds, flash/flame contact, hot surfaces, mild chemicals</td>
+            <td>Epidermis + portion of dermis (papillary/reticular)</td>
+            <td>Pain, sensitivity to air current, rapid heat loss</td>
+            <td>Blisters, pink underlying tissue (blanches)</td>
+            <td>PO pain meds, fluids, cool compresses, skin ointments. <em>Superficial partial may heal without grafting; deep partial needs grafting.</em> May convert to full thickness with infection.</td>
+          </tr>
+          <tr>
+            <td><strong>Full Thickness (3rd°)</strong></td>
+            <td>Prolonged scalds/flames, prolonged contact, chemicals, electrical</td>
+            <td>Epidermis, dermis, subcutaneous tissue, muscle, connective tissue</td>
+            <td>Insensate (painless), shock, myoglobinuria</td>
+            <td>Leathery appearance, pale or black eschar, <em>no blanching</em></td>
+            <td>IV pain meds/sedatives, excision/debridement, grafting, silver-impregnated dressings, topical ABX, <strong>FLUIDS</strong>. &gt;1% TBSA requires grafting.</td>
+          </tr>
+          <tr>
+            <td><strong>Full Thickness (4th°)</strong></td>
+            <td>Prolonged exposure, high-voltage electrical burns</td>
+            <td>Bone, fat, fascia, and/or muscle involvement</td>
+            <td>Shock, myoglobinuria, hemolysis</td>
+            <td>Charred, exposed bone</td>
+            <td>IV pain meds, sedation, fluids, possible <strong>amputation</strong>.</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="pearl">Full thickness = PAINLESS — nerve endings are destroyed. Partial thickness = VERY PAINFUL — nerve endings exposed.</div>
+      <div class="pearl">Deep partial thickness may CONVERT to full thickness if infected or treated incorrectly.</div>
+    </div>
+  </div>
+
+  <div class="grid" style="margin-bottom:16px;">
+    <!-- TBSA -->
+    <div class="card important">
+      <div class="card-title gold">TBSA Assessment — Rule of Nines</div>
+      <div class="highlight gold"><strong>Gold standard for calculating TBSA%</strong> (Lund-Browder method is more precise for peds)</div>
+      <table class="data-table">
+        <thead><tr><th>Body Region</th><th>% TBSA</th></tr></thead>
+        <tbody>
+          <tr><td>Head &amp; neck</td><td>9%</td></tr>
+          <tr><td>Each arm</td><td>9% each (18% total)</td></tr>
+          <tr><td>Anterior trunk</td><td>18%</td></tr>
+          <tr><td>Posterior trunk</td><td>18%</td></tr>
+          <tr><td>Each leg</td><td>18% each (36% total)</td></tr>
+          <tr><td>Perineum/genitalia</td><td>1%</td></tr>
+          <tr><td><strong>TOTAL</strong></td><td><strong>100%</strong></td></tr>
+        </tbody>
+      </table>
+      <div class="spacer-sm"></div>
+      <h4>Burn Zones (Jackson's)</h4>
+      <ul class="clean">
+        <li><strong>Zone of Coagulation</strong> — center, irreversible cell death</li>
+        <li><strong>Zone of Stasis</strong> — middle, salvageable with adequate perfusion</li>
+        <li><strong>Zone of Hyperemia</strong> — outer, inflammation, will recover</li>
+      </ul>
+      <div class="pearl">Fluid resuscitation saves the zone of stasis!</div>
+    </div>
+
+    <!-- PARKLAND -->
+    <div class="card critical">
+      <div class="card-title red">Parkland Formula — TBSA &gt;20%</div>
+      <div class="highlight red" style="margin-bottom:10px;">
+        <strong>Thermal/Chemical Burns (2nd, 3rd, 4th°):</strong><br>
+        2 mL LR × TBSA% × kg = total over 24 hrs
+      </div>
+      <div class="highlight red">
+        <strong>Electrical Burns (2nd, 3rd, 4th°):</strong><br>
+        4 mL LR × TBSA% × kg = total over 24 hrs
+      </div>
+      <div class="spacer-sm"></div>
+      <ul class="dot">
+        <li><strong>½ given over first 8 hours</strong> — from time of BURN (not arrival!)</li>
+        <li>Remaining ½ given over next 16 hours</li>
+        <li>Fluid = <strong>Lactated Ringer's (LR)</strong></li>
+        <li>Urine output = standard indicator of fluid response</li>
+        <li>Electrical burns: goal UO = <strong>75–100 mL/hr</strong></li>
+        <li>Fluid is NOT titrated to vital signs — titrate to UO</li>
+        <li>Fluid administration is NOT held based on BP alone</li>
+      </ul>
+      <div class="pearl">Timing is the MOST important factor — begins at time of burn and covers the next 24 hours.</div>
+      <div class="pearl">Example: 120 kg patient with 36% TBSA thermal burn → 2 × 36 × 120 = 8,640 mL total. Give 4,320 mL in first 8 hrs.</div>
+    </div>
+  </div>
+
+  <!-- INHALATION + CO + ELECTRICAL + CHEMICAL -->
+  <div class="grid" style="margin-bottom:16px;">
+    <div class="card critical">
+      <div class="card-title red">Inhalation Injury — Airway Priority</div>
+      <h4>Suspect Inhalation Injury When:</h4>
+      <ul class="dot">
+        <li>Soot around mouth or nares</li>
+        <li>Singed nose hairs or facial hair</li>
+        <li>Facial or oropharyngeal edema (peaks at 24 hours)</li>
+        <li>Voice hoarseness</li>
+        <li>Audible wheezing that <em>stops</em> = <strong>DANGER</strong> (airway may be closing)</li>
+      </ul>
+      <div class="highlight red"><strong>Wheezing that disappears → notify provider IMMEDIATELY.</strong> This is NOT improvement — it means the airway is occluding. Do NOT document as improvement or wait.</div>
+      <div class="spacer-sm"></div>
+      <h4>Interventions:</h4>
+      <ul class="dot">
+        <li>Early intubation before edema peaks</li>
+        <li>High-flow O₂ (100% via NRB)</li>
+        <li>Bronchodilators, nebulized treatments</li>
+        <li>Continuous SpO₂ monitoring (but pulse ox unreliable with CO poisoning)</li>
+      </ul>
+    </div>
+
+    <div class="card pharm">
+      <div class="card-title purple">Carbon Monoxide (CO) Poisoning</div>
+      <ul class="dot">
+        <li>Leading cause of death from fire + accidental poisoning</li>
+        <li>Colorless, odorless, tasteless — rapidly crosses lung membrane</li>
+        <li>CO has <strong>higher affinity for Hgb than O₂</strong> → forms carboxyhemoglobin (COHb)</li>
+        <li><strong>Pulse ox will be falsely NORMAL</strong> — use co-oximetry</li>
+        <li>COHb &gt;10% = strong indicator of inhalation injury</li>
+        <li>COHb 61–80% = almost always fatal</li>
+      </ul>
+      <h4>S/S of CO Poisoning:</h4>
+      <ul class="dot">
+        <li>SOB, headache, confusion/AMS</li>
+        <li>Muscle weakness, dizziness, blurred vision</li>
+        <li>Red cherry lips/face OR pale skin</li>
+      </ul>
+      <div class="pearl">Treatment: 100% O₂ via NRB. Cyanide kit may also be needed (house fire exposure).</div>
+    </div>
+
+    <div class="card info">
+      <div class="card-title blue">Electrical Burns</div>
+      <ul class="dot">
+        <li>Assess: voltage, amperage, resistance, duration, pathway (entry/exit)</li>
+        <li>Internal damage often worse than external appearance</li>
+        <li>Anticipate: <strong>cardiac arrest</strong>, dysrhythmias, massive myoglobin release</li>
+        <li>Treatment: increase UO to <strong>75–100 mL/hr</strong> (renal protection from rhabdomyolysis)</li>
+        <li>Use <strong>4 mL LR × TBSA% × kg</strong> (not 2 mL)</li>
+        <li>Monitor CK, myoglobinuria (dark/red/pink urine)</li>
+        <li>Cardiac monitoring (telemetry)</li>
+      </ul>
+    </div>
+
+    <div class="card info">
+      <div class="card-title blue">Chemical Burns</div>
+      <ul class="dot">
+        <li>Tissue damage continues until chemical is <strong>removed or inactivated</strong></li>
+        <li>Dependent on: strength/concentration, quantity, duration of contact, mechanism</li>
+        <li><strong>Decontamination (DECON)</strong>: remove contaminated clothing, rinse ALL exposed areas with running water</li>
+        <li>Flush eyes if exposed</li>
+        <li>Do NOT neutralize acid with base (exothermic reaction = more damage)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- BURN SHOCK + PATHOPHYSIOLOGY -->
+  <div class="grid" style="margin-bottom:16px;">
+    <div class="card critical span-2">
+      <div class="card-title red">Burn Shock — Pathophysiology (TBSA &gt;20%)</div>
+      <div class="grid-3" style="gap:12px;margin-top:8px;">
+        <div>
+          <h4 style="color:var(--accent3);">Vascular</h4>
+          <ul class="dot">
+            <li>↑ capillary permeability → capillary leak → fluid shift to tissues</li>
+            <li>Loss of plasma proteins &amp; electrolytes</li>
+            <li>↑ interstitial fluid = edema</li>
+            <li>↓ intravascular volume = hypovolemia/burn shock</li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="color:var(--accent2);">Systemic Response</h4>
+          <ul class="dot">
+            <li>Release of inflammatory mediators (cytokines)</li>
+            <li>Activation of sympathetic nervous system</li>
+            <li>↑ catecholamines → hypermetabolic state</li>
+            <li>Suppressed anabolic hormones</li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="color:var(--accent4);">Organ Effects</h4>
+          <ul class="dot">
+            <li><strong>Pulmonary:</strong> upper airway obstruction, bronchospasm, ↑ COHb, PE, ARDS</li>
+            <li><strong>Cardiac:</strong> ↓ CO, cardiac depression, flash pulmonary edema risk</li>
+            <li><strong>Renal:</strong> AKI (hypovolemia), hematuria, myoglobinuria, ↑ bladder pressure</li>
+            <li><strong>GI:</strong> paralytic ileus, stress ulcers (Curling's), impaired motility</li>
+            <li><strong>Skin:</strong> impaired thermoregulation, altered immune defenses, insensible fluid loss</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NURSING MANAGEMENT -->
+  <div class="grid" style="margin-bottom:16px;">
+    <div class="card nursing">
+      <div class="card-title green">Nursing Management — Acute/Intermediate Phase</div>
+      <ul class="dot">
+        <li><strong>Airway + breathing</strong> — always first priority</li>
+        <li>Fluid resuscitation per Parkland (titrate to UO, not VS)</li>
+        <li>Pain management: long-acting analgesics, <strong>high-dose narcotics/sedatives</strong> (burns metabolize meds faster), <strong>avoid NSAIDs</strong></li>
+        <li>Check substance use history — higher doses typically needed, no judgment</li>
+        <li>Alternative therapies: virtual reality for procedural pain</li>
+        <li>Hypothermia prevention (warm environment, warm fluids)</li>
+        <li>Nutrition: high-protein, high-calorie (hypermetabolic state)</li>
+        <li>Early mobility + positioning to prevent contractures</li>
+        <li>Weight during dressing changes (prior to application)</li>
+        <li><strong>Always assess pulses</strong> — especially with circumferential dressings</li>
+        <li>Tetanus prophylaxis status — assess and update as needed</li>
+      </ul>
+    </div>
+
+    <div class="card important">
+      <div class="card-title gold">Wound Care &amp; Debridement</div>
+      <h4>4 Types of Debridement</h4>
+      <ul class="clean">
+        <li><strong>Natural:</strong> spontaneous separation of devitalized tissue</li>
+        <li><strong>Mechanical:</strong> surgical tools used to remove eschar</li>
+        <li><strong>Chemical:</strong> topical enzymatic agents (Silvadene, heavy metals)</li>
+        <li><strong>Surgical:</strong> surgical removal before natural debridement occurs</li>
+      </ul>
+      <div class="spacer-sm"></div>
+      <h4>Grafting</h4>
+      <ul class="dot">
+        <li><strong>Autograft</strong> — from patient's own body (donor site)</li>
+        <li><strong>Allograft</strong> — from another human (living or cadaveric)</li>
+        <li><strong>Xenograft</strong> — from animal (heterograft)</li>
+        <li>Keep bulky gauze over new grafts: clean &amp; dry</li>
+        <li>Daily dressing changes (or more frequent PRN)</li>
+        <li>Skin grafts cause significant blood and heat loss — monitor closely</li>
+      </ul>
+    </div>
+
+    <div class="card critical">
+      <div class="card-title red">Escharotomy &amp; Fasciotomy</div>
+      <h4>Escharotomy</h4>
+      <ul class="dot">
+        <li>Surgical linear excision through eschar</li>
+        <li>Indicated for <strong>circumferential burns</strong> (central or peripheral)</li>
+        <li>Prevents compartment syndrome</li>
+        <li>Assess: pulses, bladder pressures, ventilator compliance</li>
+      </ul>
+      <div class="spacer-sm"></div>
+      <h4>Fasciotomy</h4>
+      <ul class="dot">
+        <li>Excision through fascia — deeper than escharotomy</li>
+        <li>Releases pressure from deep compartments</li>
+        <li>Promotes muscle and nerve viability</li>
+        <li>Opens one or multiple muscle compartments</li>
+      </ul>
+    </div>
+
+    <div class="card pharm">
+      <div class="card-title purple">Infection Prevention — Burn Patient</div>
+      <ul class="dot">
+        <li>Infection/sepsis = <strong>#1 cause of death</strong> in burn patients</li>
+        <li>Frequent hand washing (all staff)</li>
+        <li>Proper PPE when entering burn patient room</li>
+        <li><strong>No fresh flowers</strong>, no fresh fruits/vegetables/outdoor foods</li>
+        <li>Daily wound and dressing changes (debridement)</li>
+        <li>Topical antimicrobials (Silvadene = silver sulfadiazine, antibiotic ointments)</li>
+        <li>Assess tetanus status, update as needed</li>
+        <li>Monitor for signs of sepsis continuously</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SJS / TEN -->
+  <div class="highlight gold" style="margin-bottom:12px;font-size:13px;">
+    📌 Stevens-Johnson Syndrome is a separate testable topic — Dr. Bell covered this in the same lecture. Know SJS vs TEN distinction, causative drugs, and that management mirrors burns.
+  </div>
+
+  <div class="grid">
+    <div class="card critical">
+      <div class="card-title red">Stevens-Johnson Syndrome (SJS) &amp; TEN</div>
+      <div class="highlight red">
+        <strong>SJS:</strong> &lt;10% TBSA epidermal detachment<br>
+        <strong>Overlap:</strong> 10–20% TBSA<br>
+        <strong>TEN (Toxic Epidermal Necrolysis):</strong> &gt;30% TBSA
+      </div>
+      <div class="spacer-sm"></div>
+      <h4>What is it?</h4>
+      <ul class="dot">
+        <li>Rare genetic skin condition triggered by medications</li>
+        <li>Widespread erythema → epidermal detachment/sloughing → erosion formation</li>
+        <li>Mortality: 1–5% (SJS) — higher with TEN</li>
+        <li><strong>75% triggered by medication reaction</strong></li>
+      </ul>
+      <div class="spacer-sm"></div>
+      <h4>Causative Drugs (must know):</h4>
+      <ul class="dot">
+        <li><strong>Sulfonamides</strong> (most common)</li>
+        <li><strong>Anticonvulsants</strong> (carbamazepine, lamotrigine, phenytoin)</li>
+        <li><strong>NSAIDs</strong></li>
+        <li><strong>Allopurinol</strong></li>
+      </ul>
+    </div>
+
+    <div class="card important">
+      <div class="card-title gold">SJS — Risk Factors &amp; Clinical Manifestations</div>
+      <h4>Who is at risk?</h4>
+      <ul class="dot">
+        <li>Immunocompromised (HIV/AIDS, carcinomas)</li>
+        <li>Personal or family history of SJS</li>
+        <li>Current use of sulfonamides, NSAIDs, anticonvulsants</li>
+        <li>Genetic factors</li>
+      </ul>
+      <div class="spacer-sm"></div>
+      <h4>Initial Manifestations (flu-like first):</h4>
+      <ul class="dot">
+        <li>Burning/itching, tenderness of skin</li>
+        <li>Fever, cough, sore throat, headache</li>
+        <li>Severe malaise, arthralgias</li>
+        <li>Then: <strong>rapid onset of erythema involving much of the skin surface and mucous membranes</strong></li>
+        <li>Mucosal involvement: eyes, mouth, genitals</li>
+      </ul>
+    </div>
+
+    <div class="card nursing">
+      <div class="card-title green">SJS Nursing Interventions &amp; Treatment</div>
+      <div class="highlight red"><strong>#1 Priority: STOP the causative medication IMMEDIATELY</strong></div>
+      <ul class="dot">
+        <li>Maintain skin &amp; mucous membrane integrity</li>
+        <li>Ensure appropriate fluid/volume status</li>
+        <li>Prevent hypothermia</li>
+        <li>Monitor and manage complications</li>
+        <li>Relieve pain</li>
+        <li>Reduce anxiety</li>
+        <li>Treat like a burn patient (same supportive care principles)</li>
+        <li>ICU-level management for severe cases</li>
+      </ul>
+      <div class="pearl">SJS/TEN = burns equivalent in nursing management. Identify and stop the drug first, then treat supportively.</div>
+    </div>
+
+    <div class="card info">
+      <div class="card-title blue">Key NCLEX Pearls — Burns &amp; SJS</div>
+      <div class="pearl">Initial priority for any burn patient = Airway and Circulation (C-ABC), NOT pain, NOT Rule of 9s first</div>
+      <div class="pearl">Wheezing that disappears → call provider IMMEDIATELY. Not an improvement.</div>
+      <div class="pearl">Pulse ox is UNRELIABLE with CO poisoning — use co-oximetry</div>
+      <div class="pearl">Parkland timing starts at time of BURN, not ED arrival</div>
+      <div class="pearl">Thermal/Chemical burns = 2 mL LR × TBSA% × kg; Electrical = 4 mL LR</div>
+      <div class="pearl">Full thickness burns = painless (nerves destroyed); Partial thickness = most painful</div>
+      <div class="pearl">Electrical burns: urine output goal = 75–100 mL/hr (rhabdomyolysis/renal protection)</div>
+      <div class="pearl">SJS = stop the causative drug first. Most common triggers: sulfonamides, anticonvulsants, NSAIDs, allopurinol</div>
+      <div class="pearl">Burn patients metabolize pain meds faster → require higher doses; avoid NSAIDs</div>
+      <div class="pearl">Older adults have greater mortality with similar burn severity due to comorbidities and thinner skin</div>
+    </div>
+  </div>
+</div>
+
+<!-- SEPSIS / DIC -->
+<div id="sepsis" class="section">
+  <div class="section-title">Sepsis, SIRS &amp; DIC</div>
+  <div class="section-meta">
+    <span class="meta-tag">SEPSIS: 3Q · DIC: 3Q = 6 TOTAL</span>
+    <span class="meta-tag">Dr. Mook · Cumulative</span>
+  </div>
+
+  <div class="grid">
+    <div class="card critical">
+      <div class="card-title red">Sepsis Criteria + 1-Hour Bundle</div>
+      <h4>Criteria (2 of these + suspected/confirmed infection)</h4>
+      <ul class="dot">
+        <li>Fever OR hypothermia</li>
+        <li>HR &gt;90</li>
+        <li>RR &gt;22</li>
+        <li>SBP &lt;100</li>
+        <li>Altered mental status</li>
+        <li>Oliguria, ↑ lactate, ↑ or ↓ WBC</li>
+      </ul>
+      <div class="spacer-sm"></div>
+      <h4>1-Hour Bundle (CALFV)</h4>
+      <ul class="dot">
+        <li><em>C</em> — Cultures x2 (aerobic + anaerobic) <strong>BEFORE ABX</strong></li>
+        <li><em>A</em> — ABX (broad spectrum, large bore IV)</li>
+        <li><em>L</em> — Lactate level (remeasure if initial &gt;2)</li>
+        <li><em>F</em> — Fluids: 30 mL/kg crystalloid (LR)</li>
+        <li><em>V</em> — Vasopressors if MAP &lt;65 despite fluids (via central line, ICU)</li>
+      </ul>
+      <div class="pearl">MAP &gt;65 = goal for sepsis patient. Lactate normal: 0.5–2.2</div>
+    </div>
+
+    <div class="card info">
+      <div class="card-title blue">qSOFA vs SIRS</div>
+      <table class="data-table">
+        <thead><tr><th></th><th>qSOFA</th><th>SIRS</th></tr></thead>
+        <tbody>
+          <tr><td>Infection needed?</td><td>Yes</td><td>No (generalized inflammation)</td></tr>
+          <tr><td>Criteria</td><td>AMS, RR≥22, SBP≤100</td><td>Tachy, Tachypnea, Temp &gt;101/&lt;96.8, WBC &gt;12k/&lt;4k</td></tr>
+          <tr><td>Score needed</td><td>≥2 of 3</td><td>2 of 4</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card critical">
+      <div class="card-title red">DIC — Disseminated Intravascular Coagulation</div>
+      <div class="highlight red"><strong>Both bleeding AND clotting simultaneously</strong> — always a sign of underlying condition</div>
+      <ul class="dot">
+        <li>Mechanism: excessive clotting → fibrinolytic system triggered → anticoagulants released → BLEEDING</li>
+        <li>Lots of tiny clots in microcirculation → organ failure</li>
+      </ul>
+      <div class="spacer-sm"></div>
+      <h4>Labs</h4>
+      <ul class="dot">
+        <li><strong>Platelets ↓, Fibrinogen ↓</strong></li>
+        <li>PT ↑, PTT ↑, D-dimer ↑</li>
+        <li>Everything else ↑</li>
+      </ul>
+      <div class="spacer-sm"></div>
+      <h4>Management</h4>
+      <ul class="dot">
+        <li>Treat underlying cause first</li>
+        <li>FFP (addresses coags fast)</li>
+        <li>Platelets when &lt;20,000</li>
+        <li>Cryo replaces fibrinogen + factors 5 &amp; 7</li>
+        <li>Heparin is last resort</li>
+      </ul>
+      <div class="pearl">Nursing: HOB 30°, stool softeners, avoid IM injections, rectal probes, clopidogrel/aspirin</div>
+    </div>
+
+    <div class="card nursing">
+      <div class="card-title green">Blood Transfusion Safety</div>
+      <ul class="dot">
+        <li>2 licensed personnel verify + 2 patient identifiers</li>
+        <li>Assess VS before, after 15 min, and at completion</li>
+        <li>Start slow, stay at bedside for first 15 min</li>
+        <li>Discontinue blood after 4 hours of hanging</li>
+        <li>Warm blood if patient is hypothermic</li>
+        <li>Have calcium available (hypocalcemia risk with massive transfusion)</li>
+        <li>Mass transfusion ratio: <strong>1:1:1 (pRBCs : FFP : Platelets)</strong></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- GI EMERGENCIES -->
+<div id="gi" class="section">
+  <div class="section-title">GI Bleed &amp; GI Emergencies</div>
+  <div class="section-meta">
+    <span class="meta-tag">3 QUESTIONS</span>
+    <span class="meta-tag">Dr. Jayasinghe · Cumulative</span>
+  </div>
+
+  <div class="grid">
+    <div class="card critical">
+      <div class="card-title red">Upper GI Bleed</div>
+      <ul class="dot">
+        <li>Causes: ulcers, varices, H. pylori, NSAID use, liver disease</li>
+        <li>S/S: black tarry stools (melena), coffee-ground emesis, hematemesis, hypovolemic shock</li>
+        <li><strong>EGD is #1 diagnostic test</strong></li>
+        <li>Treatment: IV Pantoprazole (PPI), IV Octreotide, H2RA prophylaxis</li>
+        <li>Procedure: EGD, Sengstaken-Blakemore/Minnesota tube for variceal bleeds</li>
+        <li>Nursing: stabilize BP (2 large IVs), NPO, NG tube, monitor I&Os</li>
+      </ul>
+      <div class="pearl">Minnesota tube: airway is PRIORITY → must be intubated before insertion</div>
+    </div>
+
+    <div class="card info">
+      <div class="card-title blue">Lower GI Bleed</div>
+      <ul class="dot">
+        <li>Causes: diverticulitis, bowel ischemia, Crohn's/UC, hemorrhoids, colon cancer</li>
+        <li>S/S: hematochezia (BRBPR), abdominal pain, hypovolemic shock</li>
+        <li>Tests: colonoscopy, abdominal CT w/contrast</li>
+        <li>Treatment: colonoscopy, clips/cauterization, heparin therapy</li>
+        <li>Nursing: stabilize BP (2 IVs), NPO, monitor electrolytes</li>
+      </ul>
+    </div>
+
+    <div class="card important">
+      <div class="card-title gold">Quick GI Emergency Reference</div>
+      <table class="data-table">
+        <thead><tr><th>Condition</th><th>Key Finding</th><th>Priority Intervention</th></tr></thead>
+        <tbody>
+          <tr><td>Esophageal Perforation</td><td>Crepitus, chest pain, sepsis risk</td><td>Strict NPO, NO NG tube, IV ABX</td></tr>
+          <tr><td>Appendicitis</td><td>McBurney's point, RLQ pain, ↑ WBC</td><td>IV ABX → Appendectomy</td></tr>
+          <tr><td>Bowel Obstruction</td><td>Hypoactive sounds, distension, colicky pain</td><td>NPO, NG decompression, isotonic fluids</td></tr>
+          <tr><td>Peritonitis</td><td>Rigid abdomen, diffuse pain, septic shock</td><td>Laparotomy, wound vac, ABX</td></tr>
+          <tr><td>Mesenteric Ischemia</td><td>Diffuse pain, critically ill, ↑ lactate</td><td>Heparin, resect dead bowel, TPN</td></tr>
+          <tr><td>Splenic Rupture</td><td>Kehr's sign (L shoulder pain), trauma</td><td>FAST exam, stabilize BP, splenectomy</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ARDS / PNEUMOTHORAX -->
+<div id="ards" class="section">
+  <div class="section-title">ARDS &amp; Pneumothorax</div>
+  <div class="section-meta">
+    <span class="meta-tag">4 QUESTIONS</span>
+    <span class="meta-tag">Dr. Jayasinghe · Cumulative</span>
+  </div>
+
+  <div class="grid">
+    <div class="card critical">
+      <div class="card-title red">ARDS Criteria (All 5 Required)</div>
+      <ul class="dot">
+        <li>Acute onset of respiratory symptoms <strong>within 7 days</strong></li>
+        <li>Bilateral lung infiltrates on imaging</li>
+        <li>PaO₂/FiO₂ ratio &lt;300 (Mild 201–300; Moderate 101–200; <em>Severe &lt;100</em>)</li>
+        <li>PEEP &gt;5 cm H₂O</li>
+        <li>Rule out cardiogenic cause of pulmonary edema</li>
+      </ul>
+      <div class="pearl">Divide PaO₂ ÷ FiO₂ to get ratio. Severe = &lt;100.</div>
+    </div>
+
+    <div class="card info">
+      <div class="card-title blue">Vent Management — Lung Protective</div>
+      <ul class="dot">
+        <li>Low tidal volume (6 mL/kg IBW) — prevent barotrauma</li>
+        <li>High PEEP — alveolar recruitment</li>
+        <li>RASS goal: −3 to −5 (deeply sedated)</li>
+        <li>Sedation: Propofol, Ativan, Versed, Ketamine, Dexmedetomidine</li>
+        <li>Analgesia: Fentanyl, hydromorphone (assess with BPS or CPOT)</li>
+        <li>NM Blockers: Rocuronium, Cisatracurium → use Train-of-4</li>
+        <li>Corticosteroids</li>
+      </ul>
+    </div>
+
+    <div class="card nursing">
+      <div class="card-title green">Proning</div>
+      <ul class="dot">
+        <li>Improves oxygenation in severe ARDS</li>
+        <li>Must have RASS −4 to −5</li>
+        <li>Takes 4–5 staff members</li>
+        <li>Huge skin breakdown risk → use foam padding</li>
+        <li>Secure all lines/tubes before turning</li>
+      </ul>
+      <div class="spacer-sm"></div>
+      <h4>Vent Alarms</h4>
+      <ul class="dot">
+        <li><em>Low pressure</em> → circuit disconnect, airway/cuff leak</li>
+        <li><em>High pressure</em> → coughing, biting ET, kinked tube, secretions</li>
+      </ul>
+    </div>
+
+    <div class="card critical">
+      <div class="card-title red">Tension Pneumothorax</div>
+      <ul class="dot">
+        <li>In ARDS: barotrauma from high PEEP → air enters pleural space</li>
+        <li>S/S: absent lung sounds, tracheal deviation, hypotension, tachycardia, JVD, subcutaneous emphysema/crepitus</li>
+        <li><strong>Treatment: emergent needle decompression first → then chest tube</strong></li>
+        <li>Chest tube: keep drain lower than tube, NO kinks, don't clamp</li>
+        <li>Tidaling = normal; Bubbling = air leak</li>
+        <li>Output &gt;100 mL for 2 hours → report to provider</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- NEURO: SCI / STROKE -->
+<div id="neuro" class="section">
+  <div class="section-title">Neurology: SCI &amp; Stroke</div>
+  <div class="section-meta">
+    <span class="meta-tag">SCI: 5Q · STROKE: 4Q = 9 TOTAL</span>
+    <span class="meta-tag">Dr. Jayasinghe · Cumulative</span>
+  </div>
+
+  <div class="grid">
+    <div class="card critical">
+      <div class="card-title red">Spinal Cord Injury — Key Points</div>
+      <ul class="dot">
+        <li><strong>Higher injury = worse outcomes</strong> (C1–C4 = vent dependent, diaphragm at C1–C4)</li>
+        <li>Complete = total loss of motor/sensory below injury</li>
+        <li>Incomplete = some function preserved (Brown-Séquard: motor loss ipsilateral, pain/temp loss contralateral)</li>
+        <li>Acute: immobilize (log roll, C-spine), O₂ ≥95%, MAP &gt;85, NO head ROM assessment</li>
+      </ul>
+      <div class="spacer-sm"></div>
+      <h4>Complications</h4>
+      <ul class="dot">
+        <li><strong>Spinal shock:</strong> sudden loss of ALL function, hours–weeks, MAP &gt;85 (pressors/fluids)</li>
+        <li><strong>Neurogenic shock:</strong> cardiovascular collapse, bradycardia (↓ BP + ↓ HR)</li>
+        <li><strong>Autonomic Dysreflexia:</strong> HTN + pounding headache + cool/pale skin → HOB up, cath, identify trigger (full bladder #1)</li>
+      </ul>
+    </div>
+
+    <div class="card important">
+      <div class="card-title gold">Stroke — Ischemic vs Hemorrhagic</div>
+      <table class="data-table">
+        <thead><tr><th></th><th>Ischemic</th><th>Hemorrhagic</th></tr></thead>
+        <tbody>
+          <tr><td>Mechanism</td><td>Clot in cerebral artery</td><td>Rupture of cerebral artery</td></tr>
+          <tr><td>S/S</td><td>Hemiparesis, aphasia, diplopia, hemianopsia</td><td>"Worst headache of life" (thunderclap), nuchal rigidity</td></tr>
+          <tr><td>First test</td><td colspan="2"><strong>Non-contrast head CT</strong> (within 25 min of admit)</td></tr>
+          <tr><td>Treatment</td><td><strong>Alteplase within 4.5 hrs</strong>; thrombectomy</td><td>Stop bleeding, ↓ ICP; nimodipine for vasospasm (SAH)</td></tr>
+          <tr><td>Alteplase exclusions</td><td>Surgery &lt;3 months, ↑ INR, ↑ glucose, BP &gt;185/110</td><td>N/A — no Alteplase</td></tr>
+        </tbody>
+      </table>
+      <div class="pearl">TIA: symptoms last 1–2 hours, resolve completely → NO alteplase. Warning of impending stroke.</div>
+    </div>
+
+    <div class="card info">
+      <div class="card-title blue">↑ ICP — ICU Emergency</div>
+      <ul class="dot">
+        <li>Normal ICP: &lt;15 mmHg; Goal CPP: ≥60 mmHg</li>
+        <li>Early signs: ↓ LOC, confusion, restlessness</li>
+        <li>Late signs: ↓ HR or RR, widening pulse pressure (Cushing's triad)</li>
+        <li>Nursing: HOB 30–45°, mannitol, hypertonic NaCl, levetiracetam, corticosteroids</li>
+        <li>CSF drainage (ICP monitor: yellow = normal)</li>
+        <li>Surgery: craniotomy (clip aneurysm), craniectomy (helmet for swelling), coil for aneurysm</li>
+      </ul>
+      <div class="pearl">CPP &lt;50 = permanent neurological damage</div>
+    </div>
+
+    <div class="card nursing">
+      <div class="card-title green">Stroke Nursing Interventions</div>
+      <ul class="dot">
+        <li>Aphasia: short phrases, eye contact, speech consult</li>
+        <li>Nutrition: dysphagia screen, thickened liquids</li>
+        <li>Vision: approach from intact side, call bell on intact side</li>
+        <li>Vitals Q15 min → Q1 hour; Neuro assessment Q1 hour</li>
+        <li>GU: frequent bladder scan</li>
+        <li>After Alteplase: NO NG tube, NO urinary catheters, NO arterial cath → bedrest</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ENDO -->
+<div id="endo" class="section">
+  <div class="section-title">Endocrine: DKA, HHS, DI, SIADH, Adrenal</div>
+  <div class="section-meta">
+    <span class="meta-tag">DKA/HHS: 3Q · DI/SIADH: 4Q · Adrenal: 2Q = 9 TOTAL</span>
+    <span class="meta-tag">Dr. Jayasinghe / Dr. Bell · Cumulative</span>
+  </div>
+
+  <div class="grid">
+    <div class="card critical">
+      <div class="card-title red">DKA vs HHS — Side by Side</div>
+      <table class="data-table">
+        <thead><tr><th></th><th>DKA</th><th>HHS</th></tr></thead>
+        <tbody>
+          <tr><td>Patient</td><td>Type 1 DM, younger</td><td>Type 2 DM, older</td></tr>
+          <tr><td>Cause</td><td>Infection, stress, missed insulin</td><td>Steroids, infection, pancreatitis</td></tr>
+          <tr><td>Glucose</td><td>&gt;250 (often 300–800)</td><td>&gt;600 (often 1000+)</td></tr>
+          <tr><td>Ketones</td><td><strong>Present</strong></td><td>Absent</td></tr>
+          <tr><td>Metabolic Acidosis</td><td><strong>Yes</strong> (HCO₃ &lt;22, ↓ pH)</td><td>No</td></tr>
+          <tr><td>Kussmaul breathing</td><td><strong>Yes</strong> (fruity breath)</td><td>No</td></tr>
+          <tr><td>Serum osm</td><td>Normal/slightly ↑</td><td>Markedly ↑ (&gt;320)</td></tr>
+          <tr><td>Treatment</td><td>LR/NS fluids, IV insulin, K+ replacement</td><td>Same but larger fluid volumes</td></tr>
+        </tbody>
+      </table>
+      <div class="pearl">DKA treatment stop criteria: patient must tolerate clear liquids + have good LOC</div>
+      <div class="pearl">Watch for HYPOKALEMIA when starting insulin in DKA!</div>
+    </div>
+
+    <div class="card important">
+      <div class="card-title gold">SIADH vs DI — Quick Comparison</div>
+      <table class="data-table">
+        <thead><tr><th></th><th>SIADH</th><th>Diabetes Insipidus</th></tr></thead>
+        <tbody>
+          <tr><td>ADH</td><td>↑ (too much)</td><td>↓ (too little)</td></tr>
+          <tr><td>Urine</td><td>Concentrated (↑ osm)</td><td>Dilute (dilute, lots of it)</td></tr>
+          <tr><td>Blood Na</td><td><strong>↓ Hyponatremia</strong></td><td><strong>↑ Hypernatremia</strong></td></tr>
+          <tr><td>Blood osm</td><td>↓</td><td>↑</td></tr>
+          <tr><td>UO</td><td>↓ (concentrated)</td><td>↑ Polyuria</td></tr>
+          <tr><td>Key symptom</td><td>Seizures if Na &lt;115, fluid overload</td><td>Polydipsia, dilute urine, hypotension</td></tr>
+          <tr><td>Treatment</td><td>Fluid restriction, 3% hypertonic saline (central line), Furosemide</td><td>Hypotonic 0.45% NaCl, Desmopressin (central DI)</td></tr>
+        </tbody>
+      </table>
+      <div class="pearl">SIADH = "Soaked Inside" — too much fluid retained. DI = peeing everything out.</div>
+    </div>
+
+    <div class="card info">
+      <div class="card-title blue">Addison's vs Cushing's</div>
+      <table class="data-table">
+        <thead><tr><th></th><th>Addison's (↓ cortisol)</th><th>Cushing's (↑ cortisol)</th></tr></thead>
+        <tbody>
+          <tr><td>BP</td><td>↓</td><td>↑ (HTN)</td></tr>
+          <tr><td>Na</td><td>↓ Hyponatremia</td><td>↑ or normal</td></tr>
+          <tr><td>K</td><td>↑ Hyperkalemia</td><td>↓ Hypokalemia</td></tr>
+          <tr><td>Glucose</td><td>↓ Hypoglycemia</td><td>↑ Hyperglycemia</td></tr>
+          <tr><td>Appearance</td><td>Weight loss, hair thinning</td><td>Moon face, buffalo hump, kyphosis</td></tr>
+          <tr><td>Crisis</td><td><strong>Addisonian crisis:</strong> ↓BP, altered mental → steroids ASAP + NaCl</td><td>N/A</td></tr>
+          <tr><td>Treatment</td><td>Steroids (hydrocortisone), salt supplementation</td><td>Hypophysectomy, adrenalectomy</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- RENAL / PANCREAS -->
+<div id="renal" class="section">
+  <div class="section-title">AKI &amp; Pancreatitis</div>
+  <div class="section-meta">
+    <span class="meta-tag">AKI: 2Q · Pancreatitis: 2Q = 4 TOTAL</span>
+    <span class="meta-tag">Prof. Cleary · Cumulative</span>
+  </div>
+
+  <div class="grid">
+    <div class="card critical">
+      <div class="card-title red">AKI — Three Types</div>
+      <table class="data-table">
+        <thead><tr><th>Type</th><th>Cause</th><th>Treatment</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Prerenal</strong></td><td>Hypovolemia, hypotension, ↓ flow to kidney</td><td>Fluids, pressors, inotropes (dobutamine)</td></tr>
+          <tr><td><strong>Intrarenal (ATN)</strong></td><td>Rhabdomyolysis, hypotension, infection, nephrotoxins</td><td>Treat cause, furosemide; oliguric phase: insulin+dextrose, calcium gluconate, bicarb, kayexalate, dialysis</td></tr>
+          <tr><td><strong>Postrenal</strong></td><td>Obstruction → anuria (&lt;50 mL/day)</td><td>Remove obstruction, nephrostomy</td></tr>
+        </tbody>
+      </table>
+      <div class="pearl">ATN phases: Onset → Oliguric (&lt;400 mL/day, hyperkalemia!) → Diuretic → Recovery (6 mo–1 yr)</div>
+      <div class="pearl">Nursing: Avoid NSAIDs + contrast dye. Strict I&Os. Low K+/Na+ diet.</div>
+    </div>
+
+    <div class="card info">
+      <div class="card-title blue">Pancreatitis — Key Points</div>
+      <ul class="dot">
+        <li>Most common cause: <strong>alcohol (chronic)</strong>, gallstones (acute)</li>
+        <li>Autodigestion: enzymes eat the pancreas itself</li>
+        <li>Acute: sudden mid-epigastric pain after fatty meal/alcohol, N/V</li>
+        <li>Labs: ↑ lipase + amylase, ↑ WBC, ↑ CRP, ↑ glucose</li>
+        <li>Severe: Cullen's sign (periumbilical ecchymosis), Grey Turner's sign (flank ecchymosis)</li>
+        <li>Treatment: NPO → advance to low-fat, no-spicy diet; no alcohol/caffeine; NG for vomiting; VTE prophylaxis</li>
+        <li>Shock: Blood, ABG, LR fluids</li>
+      </ul>
+      <div class="pearl">Do NOT palpate the abdomen in pancreatitis!</div>
+    </div>
+  </div>
+</div>
+
+<!-- ONCO / PSYCH -->
+<div id="onco" class="section">
+  <div class="section-title">Oncologic Emergencies, EKG &amp; Psych</div>
+  <div class="section-meta">
+    <span class="meta-tag">Onco: 3Q · Schizophrenia: 3Q · Personality Disorders: 2Q = 8 TOTAL</span>
+    <span class="meta-tag">Dr. Jayasinghe / Dr. Mook · Cumulative</span>
+  </div>
+
+  <div class="grid">
+    <div class="card critical">
+      <div class="card-title red">Oncologic Emergencies — Quick Reference</div>
+      <table class="data-table">
+        <thead><tr><th>Emergency</th><th>Key Finding</th><th>Treatment</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Tumor Lysis Syndrome</strong></td><td>K⁺ &gt;6.0, hyperkalemia, peaked T-waves, dysrhythmias</td><td>IV calcium gluconate, insulin+dextrose, albuterol, IVF, furosemide → Hemodialysis, Kayexalate</td></tr>
+          <tr><td><strong>Cardiac Tamponade</strong></td><td>Beck's Triad: narrowed BP, tachycardia, JVD; pulsus paradoxus</td><td>Pericardiocentesis</td></tr>
+          <tr><td><strong>Neutropenic Fever</strong></td><td>Temp &gt;101 OR 2 temps of 100.4 an hour apart; ANC &lt;1000</td><td>Blood cultures + broad ABX; neutropenic precautions; Filgrastim</td></tr>
+          <tr><td><strong>SIADH</strong></td><td>Hyponatremia, fluid overload, ↓ serum osm</td><td>Fluid restriction, 3% hypertonic saline (central line), Furosemide</td></tr>
+          <tr><td><strong>Pleural Effusion</strong></td><td>Metastatic cells in pleural space, SOB</td><td>Chest tube (hemothorax most common)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card info">
+      <div class="card-title blue">EKG Strip Identification</div>
+      <table class="data-table">
+        <thead><tr><th>Rhythm</th><th>Key Features</th></tr></thead>
+        <tbody>
+          <tr><td>Sinus Brady</td><td>Regular, P wave present, HR &lt;60</td></tr>
+          <tr><td>Sinus Tachy</td><td>Regular, P wave present, HR &gt;100</td></tr>
+          <tr><td>A-Fib</td><td>Irregular, NO P waves, irregular QRS</td></tr>
+          <tr><td>SVT</td><td>Narrow QRS, no P waves, very fast (&gt;150)</td></tr>
+          <tr><td>V-Tach</td><td>Wide + fast, "tombstones," no clear P waves</td></tr>
+          <tr><td>V-Fib</td><td>Chaotic/saw-like, no P or QRS — defibrillate!</td></tr>
+          <tr><td>1° Block</td><td>Prolonged PR interval (&gt;0.20s)</td></tr>
+          <tr><td>2° Mobitz I</td><td>Irregular, skipped beat (PR progressively lengthens)</td></tr>
+          <tr><td>2° Mobitz II</td><td>&gt;1 P per QRS (2:1, 3:1 ratio)</td></tr>
+          <tr><td>3° (Complete)</td><td>P waves + QRS completely dissociated</td></tr>
+        </tbody>
+      </table>
+      <div class="pearl">Heart blocks: caused by damage to conduction system or hyperkalemia</div>
+    </div>
+
+    <div class="card pharm">
+      <div class="card-title purple">Schizophrenia — Medications</div>
+      <table class="data-table">
+        <thead><tr><th></th><th>1st Gen (Conventional)</th><th>2nd Gen (Atypical)</th></tr></thead>
+        <tbody>
+          <tr><td>Mechanism</td><td>Dopamine antagonist → positive symptoms only</td><td>Dopamine + serotonin → positive AND negative</td></tr>
+          <tr><td>Drugs</td><td>Chlorpromazine, Haloperidol</td><td>Clozapine, Risperidone, Olanzapine, Quetiapine</td></tr>
+          <tr><td>Side Effects</td><td>EPS, TD (irreversible), seizures, anticholinergic, NMS (fever)</td><td>Hypotension, weight gain, hyperlipidemia, agranulocytosis (Clozapine)</td></tr>
+          <tr><td>PRN antidote</td><td>Diphenhydramine / Benztropine for EPS</td><td>Monitor WBC with Clozapine</td></tr>
+        </tbody>
+      </table>
+      <div class="pearl">Positive symptoms (temporal lobe): delusions, paranoia, hallucinations</div>
+      <div class="pearl">Negative symptoms (frontal lobe): Alogia, Anhedonia, Avolition, Flat affect</div>
+    </div>
+
+    <div class="card nursing">
+      <div class="card-title green">Psych Nursing Interventions</div>
+      <ul class="dot">
+        <li>Promote safety</li>
+        <li>Do NOT argue with or confront delusions — redirect, present reality</li>
+        <li>Routine is essential to prevent relapse</li>
+        <li>Personality disorders: CBT, Lithium for aggressiveness, SSRI</li>
+        <li>Cluster B (antisocial, borderline, histrionic, narcissistic) — DANGEROUS behaviors, boundary setting</li>
+        <li>Co-dependency: enabling behavior perpetuates the issue</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</div><!-- end main -->
+
+<script>
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
